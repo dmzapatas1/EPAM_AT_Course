@@ -212,6 +212,7 @@
     "safe-array-concat": "^1.0.1",
     "safe-buffer": "^5.2.1",
     "safe-regex-test": "^1.0.0",
+    "selenium-webdriver": "^4.15.0",
     "semver": "^6.3.1",
     "serialize-javascript": "^6.0.0",
     "set-function-name": "^2.0.1",
@@ -261,6 +262,7 @@
     "yocto-queue": "^0.1.0"
   },
   "devDependencies": {
+    "@wdio/allure-reporter": "^8.21.0",
     "@wdio/cli": "^8.16.22",
     "@wdio/local-runner": "^8.16.22",
     "@wdio/mocha-framework": "^8.16.22",

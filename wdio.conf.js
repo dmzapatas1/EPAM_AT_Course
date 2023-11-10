@@ -1,3 +1,8 @@
+const {
+    existsSync,
+    mkdirSync
+} = require('fs');
+const { func } = require('prop-types');
 exports.config = {
     //
     // ====================
@@ -51,9 +56,9 @@ exports.config = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [
-        {
-        browserName: 'chrome'
-        },
+        // {
+        // browserName: 'chrome'
+        // },
         {
          browserName: 'firefox'
         },
@@ -106,7 +111,7 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-     services: ['chromedriver', 'geckodriver'],
+     services: ['geckodriver'],
     //
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -128,7 +133,14 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: ['spec'],
+    reporters: ['spec',
+    ['allure', {
+        outputDir: 'allure-results',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: true,
+        }
+      ]
+    ],
 
     
     //
@@ -232,8 +244,22 @@ exports.config = {
      * @param {boolean} result.passed    true if test has passed, otherwise false
      * @param {object}  result.retries   information about spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
-    // afterTest: function(test, context, { error, result, duration, passed, retries }) {
-    // },
+    afterTest: async (test, context,{ error }) => {
+        // take a screenshot anytime a test fails and throws an error 
+     if (error) {
+          console.log(`Screenshot for the failed test ${test.title} is saved`);
+          const filename = test.title + '.png'; 
+          const dirPath = './screenshots/';   
+          if (!existsSync(dirPath)) {   
+            mkdirSync(dirPath, {  
+              recursive: true, 
+            });
+          }
+          await browser.saveScreenshot(dirPath + filename);
+    
+        }
+    
+      },
 
 
     /**
