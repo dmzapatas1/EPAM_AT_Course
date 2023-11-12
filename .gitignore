@@ -1,5 +1,8 @@
 /.idea
 /node_modules
+/allure-results
+/allure-report
+/screenshots
 .vscode-test/
 *.vsix
 
